@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERP Kopi Nusantara Craft - UTS EIS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-amber-50/30 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shadow-xl z-20 flex-shrink-0">
+    <div>
+      <!-- Brand Logo & Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-amber-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-amber-600/30">
+          <i class="fa-solid fa-mug-hot"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-white tracking-wide text-base leading-tight">Nusantara ERP</h1>
+          <p class="text-xs text-amber-500 font-medium">Coffee & Craft System</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="p-4 space-y-1 text-sm font-medium">
+        <a href="#" class="nav-item active flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="dashboard">
+          <i class="fa-solid fa-chart-line w-5 text-center"></i>
+          <span>Dashboard Executive</span>
+        </a>
+        <a href="#" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="pos">
+          <i class="fa-solid fa-cash-register w-5 text-center"></i>
+          <span>POS & Penjualan</span>
+        </a>
+        <a href="#" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="inventory">
+          <i class="fa-solid fa-boxes-stacked w-5 text-center"></i>
+          <span>Stok & Bahan Baku</span>
+        </a>
+        <a href="#" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="procurement">
+          <i class="fa-solid fa-truck-field w-5 text-center"></i>
+          <span>Pengadaan (PO)</span>
+        </a>
+        <a href="#" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="finance">
+          <i class="fa-solid fa-wallet w-5 text-center"></i>
+          <span>Keuangan & Akuntansi</span>
+        </a>
+        <a href="#" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all" data-tab="hr">
+          <i class="fa-solid fa-users w-5 text-center"></i>
+          <span>SDM & Penggajian</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- User / Group Profile Info -->
+    <div class="p-4 border-t border-slate-800 bg-slate-950/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold text-xs">
+          UTS
+        </div>
+        <div class="overflow-hidden">
+          <p class="text-xs font-semibold text-white truncate">Kelompok UTS EIS</p>
+          <p class="text-[10px] text-slate-400 truncate">Sistem ERP Terintegrasi</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+    <!-- Top Navbar -->
+    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shadow-sm z-10">
+      <div class="flex items-center space-x-3">
+        <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Executive</h2>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">Sistem Live</span>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <!-- Search bar -->
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" placeholder="Cari transaksi, barang..." class="pl-8 pr-4 py-1.5 text-xs bg-slate-100 rounded-lg border border-transparent focus:border-amber-500 focus:bg-white focus:outline-none transition-all w-48 focus:w-64">
+        </div>
+
+        <!-- Quick Info -->
+        <div class="text-right border-l border-slate-200 pl-4 hidden md:block">
+          <p class="text-xs font-medium text-slate-600">Mata Kuliah EIS</p>
+          <p class="text-[10px] text-slate-400">Semester Ganjil 2026/2027</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="flex-1 overflow-y-auto p-6 bg-slate-50">
+
+      <!-- ================= DASHBOARD TAB ================= -->
+      <section id="tab-dashboard" class="tab-content">
+        <!-- Executive KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+          <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 uppercase">Total Penjualan Bulan Ini</span>
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-money-bill-wave"></i>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-slate-800">Rp 48.500.000</p>
+            <p class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-arrow-trend-up"></i> +14% dibanding bulan lalu</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 uppercase">Stok Bahan Baku Utama</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-cubes"></i>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-slate-800">245 Kg</p>
+            <p class="text-xs text-amber-600 font-medium mt-1"><i class="fa-solid fa-circle-exclamation"></i> 2 Item mendekati batas aman</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 uppercase">Pesanan Aktif (PO)</span>
+              <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-slate-800">12 PO</p>
+            <p class="text-xs text-blue-600 font-medium mt-1">3 Dalam pengiriman suplier</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-slate-500 uppercase">Total Karyawan</span>
+              <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm">
+                <i class="fa-solid fa-user-group"></i>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-slate-800">18 Orang</p>
+            <p class="text-xs text-indigo-600 font-medium mt-1">100% Kehadiran hari ini</p>
+          </div>
+        </div>
+
+        <!-- Dynamic Visualizations & Analytics -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-800 text-sm">Tren Pendapatan & Beban Produksi (2026)</h3>
+              <span class="text-xs text-slate-400">6 Bulan Terakhir</span>
+            </div>
+            <div class="h-64">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-800 text-sm">Komposisi Penjualan Produk</h3>
+              <span class="text-xs text-slate-400">Bulan Ini</span>
+            </div>
+            <div class="h-64 flex items-center justify-center">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= POS & SALES TAB ================= -->
+      <section id="tab-pos" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Catalog & Menu -->
+          <div class="lg:col-span-2 space-y-4">
+            <div class="flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200">
+              <div class="flex space-x-2">
+                <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-600 text-white">Semua</button>
+                <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Minuman Kopi</button>
+                <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Bijian Kopi (Pack)</button>
+                <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Makanan</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4" id="pos-products">
+              <!-- JS Populated Products -->
+            </div>
+          </div>
+
+          <!-- Billing & Cart -->
+          <div class="bg-white rounded-xl border border-slate-200 p-5 flex flex-col justify-between h-[520px]">
+            <div>
+              <div class="flex items-center justify-between border-b pb-3 mb-3">
+                <h3 class="font-bold text-slate-800 text-base">Keranjang Pesanan</h3>
+                <span class="text-xs font-mono text-slate-400" id="order-id">#ORD-202610-09</span>
+              </div>
+              <div id="cart-items" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                <!-- Cart items inserted via JS -->
+              </div>
+            </div>
+
+            <div class="border-t pt-3 space-y-2">
+              <div class="flex justify-between text-xs text-slate-500">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">Rp 0</span>
+              </div>
+              <div class="flex justify-between text-xs text-slate-500">
+                <span>Pajak Resto (10%)</span>
+                <span id="cart-tax">Rp 0</span>
+              </div>
+              <div class="flex justify-between text-sm font-bold text-slate-800 pt-1 border-t">
+                <span>Total Bayar</span>
+                <span id="cart-total" class="text-amber-600">Rp 0</span>
+              </div>
+              <button onclick="processCheckout()" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs transition-colors shadow-lg shadow-amber-600/20 mt-2">
+                Bayar & Potong Stok Otomatis
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= INVENTORY TAB ================= -->
+      <section id="tab-inventory" class="tab-content hidden">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Stok Bahan Baku & Barang Jadi</h3>
+              <p class="text-xs text-slate-500">Terhubung langsung dengan pemotongan resep otomatis saat transaksi POS</p>
+            </div>
+            <button onclick="showModal('Tambah Bahan Baku', 'Masukkan detail stok bahan baku baru yang masuk ke gudang.')" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg text-xs flex items-center space-x-2">
+              <i class="fa-solid fa-plus"></i>
+              <span>Tambah Item Stock</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-50 text-slate-700 font-semibold uppercase border-b">
+                <tr>
+                  <th class="p-4">Kode Item</th>
+                  <th class="p-4">Nama Barang</th>
+                  <th class="p-4">Kategori</th>
+                  <th class="p-4">Stok Tersedia</th>
+                  <th class="p-4">Batas Minimal</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100" id="inventory-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PROCUREMENT TAB ================= -->
+      <section id="tab-procurement" class="tab-content hidden">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Pengadaan Bahan (Purchase Orders)</h3>
+              <p class="text-xs text-slate-500">Manajemen pesanan pembelian ke pemasok lokal & petani kopi</p>
+            </div>
+            <button onclick="showModal('Buat Purchase Order Baru', 'Buat PO baru untuk pemasok biji kopi atau perlengkapan.')" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg text-xs flex items-center space-x-2">
+              <i class="fa-solid fa-file-invoice"></i>
+              <span>Buat PO Baru</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-50 text-slate-700 font-semibold uppercase border-b">
+                <tr>
+                  <th class="p-4">No. PO</th>
+                  <th class="p-4">Pemasok / Vendor</th>
+                  <th class="p-4">Tanggal Pesan</th>
+                  <th class="p-4">Total Biaya</th>
+                  <th class="p-4">Status Pengiriman</th>
+                  <th class="p-4 text-center">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium text-slate-800">PO-2026-001</td>
+                  <td class="p-4">Petani Kopi Kintamani (Bpk. Wayan)</td>
+                  <td class="p-4">18 Okt 2026</td>
+                  <td class="p-4 font-medium text-slate-800">Rp 12.500.000</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-[10px]">Diterima (Selesai)</span></td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Detail</button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium text-slate-800">PO-2026-002</td>
+                  <td class="p-4">PT Kemasan Nusantara</td>
+                  <td class="p-4">20 Okt 2026</td>
+                  <td class="p-4 font-medium text-slate-800">Rp 4.200.000</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold text-[10px]">Dalam Pengiriman</span></td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Detail</button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium text-slate-800">PO-2026-003</td>
+                  <td class="p-4">Koperasi Susu Fresh Farm</td>
+                  <td class="p-4">21 Okt 2026</td>
+                  <td class="p-4 font-medium text-slate-800">Rp 1.850.000</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold text-[10px]">Menunggu Konfirmasi</span></td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Detail</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FINANCE TAB ================= -->
+      <section id="tab-finance" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <div class="p-5 border-b border-slate-200 flex items-center justify-between">
+              <h3 class="font-bold text-slate-800 text-base">Jurnal Umum & Arus Kas</h3>
+              <span class="text-xs text-slate-400">Terintegrasi otomatis dengan POS & PO</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-semibold uppercase border-b">
+                  <tr>
+                    <th class="p-4">Tanggal</th>
+                    <th class="p-4">Keterangan Transaksi</th>
+                    <th class="p-4">Debit</th>
+                    <th class="p-4">Kredit</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="p-4">22/10/2026</td>
+                    <td class="p-4 font-medium text-slate-800">Penjualan Harian POS #ORD-202610-08</td>
+                    <td class="p-4 text-emerald-600 font-semibold">Rp 1.450.000</td>
+                    <td class="p-4 text-slate-400">-</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="p-4">21/10/2026</td>
+                    <td class="p-4 font-medium text-slate-800">Pembayaran PO-2026-002 PT Kemasan</td>
+                    <td class="p-4 text-slate-400">-</td>
+                    <td class="p-4 text-rose-600 font-semibold">Rp 4.200.000</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50/50">
+                    <td class="p-4">20/10/2026</td>
+                    <td class="p-4 font-medium text-slate-800">Pembayaran Gaji Karyawan Operasional</td>
+                    <td class="p-4 text-slate-400">-</td>
+                    <td class="p-4 text-rose-600 font-semibold">Rp 18.000.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
+            <h3 class="font-bold text-slate-800 text-base border-b pb-3">Ringkasan Laba Rugi</h3>
+            <div class="space-y-3 text-xs">
+              <div class="flex justify-between items-center text-slate-600">
+                <span>Pendapatan Kotor</span>
+                <span class="font-semibold text-slate-800">Rp 48.500.000</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-600">
+                <span>HPP (Harga Pokok Penjualan)</span>
+                <span class="font-semibold text-rose-600">- Rp 18.200.000</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-600 pt-2 border-t">
+                <span class="font-bold">Laba Kotor</span>
+                <span class="font-bold text-slate-800">Rp 30.300.000</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-600">
+                <span>Beban Operasional & Gaji</span>
+                <span class="font-semibold text-rose-600">- Rp 12.500.000</span>
+              </div>
+              <div class="flex justify-between items-center text-sm font-bold text-slate-800 pt-3 border-t">
+                <span>Laba Bersih (Net Profit)</span>
+                <span class="text-emerald-600">Rp 17.800.000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= HR TAB ================= -->
+      <section id="tab-hr" class="tab-content hidden">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Manajemen SDM & Penggajian (HRIS)</h3>
+              <p class="text-xs text-slate-500">Data karyawan, absensi, dan otomatisasi komponen penggajian</p>
+            </div>
+            <button onclick="showModal('Tambah Karyawan Baru', 'Isi data formulir karyawan baru untuk dimasukkan ke database ERP.')" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg text-xs flex items-center space-x-2">
+              <i class="fa-solid fa-user-plus"></i>
+              <span>Tambah Karyawan</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-50 text-slate-700 font-semibold uppercase border-b">
+                <tr>
+                  <th class="p-4">ID Karyawan</th>
+                  <th class="p-4">Nama Lengkap</th>
+                  <th class="p-4">Jabatan</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">Gaji Pokok</th>
+                  <th class="p-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium">EMP-001</td>
+                  <td class="p-4 font-semibold text-slate-800">Budi Santoso</td>
+                  <td class="p-4">Head Barista / Manager Outlet</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-[10px]">Tetap</span></td>
+                  <td class="p-4 font-medium">Rp 4.500.000</td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Slip Gaji</button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium">EMP-002</td>
+                  <td class="p-4 font-semibold text-slate-800">Siti Rahma</td>
+                  <td class="p-4">Staf Kasir & Admin POS</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-[10px]">Tetap</span></td>
+                  <td class="p-4 font-medium">Rp 3.200.000</td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Slip Gaji</button></td>
+                </tr>
+                <tr class="hover:bg-slate-50/50">
+                  <td class="p-4 font-mono font-medium">EMP-003</td>
+                  <td class="p-4 font-semibold text-slate-800">Agus Setiawan</td>
+                  <td class="p-4">Master Roaster Kopi</td>
+                  <td class="p-4"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-[10px]">Tetap</span></td>
+                  <td class="p-4 font-medium">Rp 4.800.000</td>
+                  <td class="p-4 text-center"><button class="text-amber-600 font-medium hover:underline">Slip Gaji</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Reusable Modal Dynamic -->
+  <div id="app-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 border border-slate-200">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <h3 id="modal-title" class="font-bold text-slate-800 text-base">Judul Modal</h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <p id="modal-desc" class="text-xs text-slate-600 mb-4">Deskripsi aksi modal...</p>
+      <div class="space-y-3 text-xs mb-5">
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700">Nama Input</label>
+          <input type="text" placeholder="Masukkan data..." class="w-full p-2 bg-slate-50 border rounded-lg focus:outline-none focus:border-amber-600">
+        </div>
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700">Jumlah / Nilai</label>
+          <input type="number" placeholder="0" class="w-full p-2 bg-slate-50 border rounded-lg focus:outline-none focus:border-amber-600">
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button onclick="closeModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg">Batal</button>
+        <button onclick="closeModal()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg">Simpan Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
